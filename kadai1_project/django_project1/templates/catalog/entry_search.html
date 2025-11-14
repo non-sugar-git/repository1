@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>記事検索</title></head>
+  <body>
+    <h1>記事検索</h1>
+      <form method="get" action="">
+        <input type="text" name="q" value="{{ q }}" placeholder="タイトルで検索">
+        <button type="submit">検索</button>
+        <!-- TODO: value に {{ q }} を入れる -->
+      </form>
+      <!-- TODO: object_list を for/empty で表示（タイトル/作成日時）。公開一覧へのリンクも追加 -->
+      {% if q %}
+        <p>「{{ q }}」の検索結果：</p>
+      {% endif %}
+
+      {% for e in entries %}
+        <div style="margin-bottom: 1em;">
+          <p><strong>{{ e.title }}</strong></p>
+          <small>作成日時: {{ e.created_at }}</small>
+        </div>
+      {% empty %}
+        <p>該当する記事はありません。</p>
+      {% endfor %}
+
+      <p>
+        <a href="{% url 'catalog:entry_published_list' %}">公開中の記事一覧へ</a>
+      </p>
+  </body>
+</html>
