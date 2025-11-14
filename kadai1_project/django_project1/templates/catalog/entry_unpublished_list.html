@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>非公開の記事</title></head>
+  <body>
+    <h1>非公開の記事</h1>
+    <!-- TODO:
+      1) object_list を for で表示（{{ e.title }}）
+      2) 各行に「公開にする」ボタンのフォーム（method=post, csrf）
+        action は url 'catalog:entry_toggle' e.pk
+      3) 0件時のメッセージ
+      4) 公開一覧へのリンク（url 'catalog:entry_published_list'）
+    -->
+    {% for e in object_list %}
+      <div style="margin-bottom: 1em;">
+        <p>{{ e.title }}</p>
+        <form method="post" action="{% url 'catalog:entry_toggle' e.pk %}">
+          {% csrf_token %}
+          <button type="submit">公開にする</button>
+        </form>
+      </div>
+    {% empty %}
+      <p>記事は0件です。</p>
+    {% endfor %}
+
+    <p>
+      <a href="{% url 'catalog:entry_published_list' %}">公開中の記事一覧へ</a>
+    </p>
+  </body>
+</html>
+{% endblock %}
